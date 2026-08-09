@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Complaint Detail - AI Smart Civic Services</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            font-feature-settings: 'liga';
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#213600",
+                        "on-background": "#dde4e1",
+                        "secondary-fixed": "#90fa97",
+                        "primary-fixed": "#b2f746",
+                        "on-primary-container": "#416400",
+                        "outline": "#8c947c",
+                        "secondary-fixed-dim": "#74dd7e",
+                        "on-secondary-container": "#c4ffc2",
+                        "surface-container": "#1a211f",
+                        "on-tertiary-fixed": "#2a1700",
+                        "surface-variant": "#2f3634",
+                        "surface-bright": "#343b38",
+                        "on-secondary": "#003910",
+                        "primary": "#ccff80",
+                        "primary-fixed-dim": "#98da27",
+                        "surface-tint": "#98da27",
+                        "surface-container-highest": "#2f3634",
+                        "on-primary-fixed-variant": "#334f00",
+                        "surface-container-high": "#252b29",
+                        "on-secondary-fixed-variant": "#00531b",
+                        "outline-variant": "#424936",
+                        "on-surface": "#dde4e1",
+                        "tertiary-container": "#ffc989",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "secondary-container": "#007f2d",
+                        "tertiary": "#ffecd9",
+                        "surface-dim": "#0e1513",
+                        "background": "#0e1513",
+                        "on-primary-fixed": "#121f00",
+                        "primary-container": "#a3e635",
+                        "surface": "#0e1513",
+                        "on-surface-variant": "#c2cab0",
+                        "tertiary-fixed": "#ffddb8",
+                        "surface-container-low": "#161d1b",
+                        "on-error": "#690005",
+                        "secondary": "#74dd7e",
+                        "on-tertiary-container": "#805000",
+                        "inverse-on-surface": "#2b3230",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-container-lowest": "#090f0e",
+                        "inverse-primary": "#446900",
+                        "inverse-surface": "#dde4e1",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#472a00",
+                        "on-secondary-fixed": "#002106"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-desktop": "32px",
+                        "container-padding-mobile": "16px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "gutter": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom level 2 interaction styling from guidelines */
+        .card-level-1 {
+            background-color: #1A1D1A;
+            border: 1px solid #2A2D2A;
+            transition: all 0.3s ease;
+        }
+        .card-level-1:hover {
+            border-color: rgba(163, 230, 53, 0.2); /* Primary 20% opacity */
+            box-shadow: 0px 4px 20px rgba(163, 230, 53, 0.1);
+        }
+        
+        /* Subtle glow for AI panel */
+        .ai-glow {
+            box-shadow: inset 0 0 40px rgba(163, 230, 53, 0.05);
+            border: 1px solid rgba(163, 230, 53, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background flex min-h-screen overflow-hidden">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-surface-container dark:bg-surface-container h-screen w-64 rounded-r-lg shadow-md flex flex-col py-stack-lg px-stack-md gap-stack-md hidden md:flex shrink-0 z-10 border-r border-outline-variant/30">
+<!-- Header -->
+<div class="flex items-center gap-3 px-2 mb-4">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A macro photography style close up of a stylized, modern abstract geometric icon representing a user profile, rendered in luminous lime green and deep forest green tones, set against a dark textured background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMNIeRxDaZNciTl9Db10O57u7O6tqCYeITogOb_Mb6Tl1HLVc5dnQGeZ2lR763sqwM558g1KnY7PIx74OGo0_ghvCweknTW_lEL0Vkw3RPvio9tHSeHNRAjXRobBKTr4_t3JqyVTTKQ4IhAJ4tbv-SVxdBCXlm7HdE7gZtWaSWRN9fSGZy0OLX2rGVFTAxRdjwTU28TuA-TPqRWSaMr4VVc96UMGjbheaU7uTferPRR__qNTG6oIyN"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Admin Portal</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Civic Management</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-2 flex-grow">
+<!-- Dashboard (Inactive) -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg hover:text-on-surface transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<!-- All Complaints (Active - Determined by Detail View Context) -->
+<a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-bold active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="font-label-md text-label-md">All Complaints</span>
+</a>
+<!-- Analytics (Inactive) -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg hover:text-on-surface transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+</div>
+<!-- Footer Links -->
+<div class="flex flex-col gap-2 mt-auto border-t border-outline-variant/30 pt-4">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg hover:text-on-surface transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg hover:text-on-surface transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined font-label-md text-label-md">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col h-screen overflow-y-auto px-container-padding-mobile md:px-container-padding-desktop py-stack-lg gap-gutter">
+<!-- Header Section -->
+<header class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors bg-surface-container rounded-full card-level-1 flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<div class="flex items-center gap-3">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">CMP-2023-8942</h2>
+<span class="px-3 py-1 rounded-full bg-error/10 text-error font-label-sm text-label-sm border border-error/20 flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                            Critical Priority
+                        </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Submitted Oct 24, 2023 at 14:32 PST</p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 rounded-lg border border-primary text-primary font-label-md text-label-md hover:bg-primary/10 transition-colors">
+                    View History
+                </button>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Column: Primary Content (Span 8) -->
+<div class="lg:col-span-8 flex flex-col gap-gutter">
+<!-- Main Description -->
+<section class="card-level-1 rounded-lg p-6 md:p-8">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">subject</span>
+                        Citizen Report Description
+                    </h3>
+<p class="font-body-lg text-body-lg text-on-background leading-relaxed">
+                        There is a massive pothole that has developed on the northbound lane of Elm Street, right before the intersection with 4th Avenue. It's spanning almost half the lane and is several inches deep. Several cars have hit it hard this morning, and it looks like a severe hazard, especially with the rain filling it up so it's hard to see. Needs immediate filling before it causes an accident.
+                    </p>
+<div class="mt-6 flex gap-4 overflow-x-auto pb-2">
+<!-- Attached Images -->
+<div class="w-32 h-32 rounded-lg border border-outline-variant overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A low angle, realistic street photography shot of a large, jagged pothole in dark asphalt, filled with muddy rainwater reflecting an overcast sky. The image has a slightly gritty, civic documentation aesthetic with muted colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA23PSmUBad0vTceBRH_mEmW8s-EIpJwCa-fLIt1q61luZuqqiBNlbFmhKd575TXLrqyaY_Wsfq50jl7x2HNW9gDzAqpJFc-QFJp0ERJfPHtaV6XHinuQ3LtCAr_jOsun120Q21W5gcWcml1eVM0wJitid6xIGyUiyjTfNqmy4sX3jFI45iKlfOW0GPmWjeRxJ1AJo5KRlCXEUSXTPbqvbygiS2DZsyd8EFxe31uyYAeM-3V6fyT1jm"/>
+</div>
+<div class="w-32 h-32 rounded-lg border border-outline-variant overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A wide shot looking down a generic city street on an overcast day, showing a significant depression in the road surface near an intersection. The scene is shot in a stark, documentary style emphasizing urban decay and necessary infrastructure repair." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK_TJ_D1bHaG-GdsP5U84WixflKaGLBnGvZKv4kd19zbcbTTgAzgZwbEf5LzcZsIbMRirb2DUF02JxwWvxY2m11wyqpL5sujvdDi5jFUaJ9Y8TVVZwqgtwre_4HazlKeUWApy76P6blxIFQ3VXg4-1HfySpgjd1o_KuEFi3b0VSVVtHaIwuqjMfFNISuBFuoPgyeBt14lkqYSivU918heMnzaGjAof6_D7U5Cf5iGBjN4x1l7uRIEg"/>
+</div>
+</div>
+</section>
+<!-- AI Output Panel -->
+<section class="card-level-1 rounded-lg p-6 md:p-8 ai-glow relative overflow-hidden">
+<!-- Subtle background pattern for AI section -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#a3e635 1px, transparent 1px); background-size: 16px 16px;"></div>
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-6 border-b border-outline-variant/50 pb-4">
+<h3 class="font-headline-md text-headline-md text-primary flex items-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+                                AI-Generated Analysis
+                            </h3>
+<span class="px-3 py-1 bg-primary/10 text-primary font-label-sm text-label-sm rounded-full">v2.4 Engine Active</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<!-- Category Insight -->
+<div class="bg-surface-container-high rounded-lg p-4 border border-outline-variant/30">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Detected Category</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span> 98% Conf</span>
+</div>
+<p class="font-headline-md text-headline-md text-on-surface">Infrastructure Repair</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Sub-category: Roadways / Pothole</p>
+</div>
+<!-- Priority Insight -->
+<div class="bg-surface-container-high rounded-lg p-4 border border-outline-variant/30">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Suggested Priority</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">check_circle</span> 92% Conf</span>
+</div>
+<p class="font-headline-md text-headline-md text-error flex items-center gap-2">
+                                    High Hazard
+                                </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Due to "massive", "severe hazard", and "rain filling it".</p>
+</div>
+</div>
+<!-- Summary -->
+<div>
+<h4 class="font-label-md text-label-md text-on-surface-variant mb-2">Executive Summary</h4>
+<p class="font-body-md text-body-md text-on-surface p-4 bg-surface-container-highest rounded-lg border-l-4 border-primary">
+                                Large, hazardous pothole reported on northbound Elm St near 4th Ave intersection. Poses immediate danger to vehicles due to size, depth, and obscured visibility from rainwater accumulation. Requires urgent inspection and temporary filling to prevent accidents.
+                            </p>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Metadata & Controls (Span 4) -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Admin Controls -->
+<section class="card-level-1 rounded-lg p-6">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">admin_panel_settings</span>
+                        Resolution Controls
+                    </h3>
+<form class="flex flex-col gap-5">
+<!-- Status Dropdown -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Status Update</label>
+<div class="relative">
+<select class="w-full bg-surface-container-high border border-outline-variant rounded-lg p-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary appearance-none transition-all">
+<option value="open">Open (Unassigned)</option>
+<option selected="" value="in-progress">In Progress (Dispatched)</option>
+<option value="resolved">Resolved / Closed</option>
+<option value="duplicate">Mark as Duplicate</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Department Reassignment -->
+<div>
+<label class="block font-label-md text-label-md text-on-surface-variant mb-2">Department Assignment</label>
+<div class="relative">
+<select class="w-full bg-surface-container-high border border-outline-variant rounded-lg p-3 font-body-md text-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary appearance-none transition-all">
+<option selected="" value="dept-dpw">Dept of Public Works (DPW)</option>
+<option value="dept-dot">Dept of Transportation (DOT)</option>
+<option value="dept-water">Water &amp; Sewer Management</option>
+<option value="dept-parks">Parks &amp; Recreation</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-3 mt-4 pt-4 border-t border-outline-variant/30">
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md rounded-lg py-3 px-4 flex items-center justify-center gap-2 hover:bg-primary-fixed-dim transition-colors shadow-[0_0_15px_rgba(163,230,53,0.2)]" type="button">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">save</span>
+                                Update Case Record
+                            </button>
+<button class="w-full bg-transparent border border-outline-variant text-on-surface font-label-md text-label-md rounded-lg py-3 px-4 hover:bg-surface-variant transition-colors" type="button">
+                                Cancel Changes
+                            </button>
+</div>
+</form>
+</section>
+<!-- Metadata Sidebar -->
+<section class="card-level-1 rounded-lg overflow-hidden flex flex-col">
+<!-- Map Visual -->
+<div class="h-40 w-full bg-surface-container-highest relative">
+<img class="w-full h-full object-cover opacity-80" data-alt="A dark mode minimalist digital map interface showing a grid of city streets with a glowing neon lime green pin dropping on a specific intersection. The aesthetic is cybernetic, high-tech, and precise, aligning with a modern civic management dashboard." data-location="Seattle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsWRTgztbRbskLGu0O9rWSCQr9Z8mS_LePAmZdkDBnjNoAndaoI_tUu2Aireirx1tOo3TyE806QKi54y17sJJX7yE4JK6Bes7VhuciEatrORyOUfvAvW29TWNOlju4hRvef-5Jmv-yDi41v3YISo_q6LA9OQJkNY4OeIDeN2eBF-AoiQ8QNL9xNB4q8PyySSrfNhjQLM3h7F6D-5LKrKdQHnMEOvbC15IKUVViiGAM6oDyYWCt-oXm"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#1A1D1A] to-transparent"></div>
+</div>
+<div class="p-6 flex flex-col gap-4">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 border-b border-outline-variant/30 pb-2">Event Metadata</h3>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">location_on</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Reported Location</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Elm St &amp; 4th Ave Intersection</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Geo: 47.6062° N, 122.3321° W</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">person</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Submitter Type</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Registered Citizen User</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">Account ID: USR-883-X</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">source</span>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Input Channel</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Mobile App (iOS)</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>

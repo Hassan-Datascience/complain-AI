@@ -1,13 +1,18 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, Depends, status
 from app.schemas import StatusUpdate, DepartmentAssign, ComplaintResponse
 from app.services.complaint_manager import ComplaintManager
+from app.routes.auth import require_admin
 
 router = APIRouter(prefix="/complaints", tags=["Admin Operations"])
 
 manager = ComplaintManager()
 
 @router.patch("/{complaint_id}/status", response_model=ComplaintResponse)
-def update_complaint_status(complaint_id: str, payload: StatusUpdate):
+def update_complaint_status(
+    complaint_id: str,
+    payload: StatusUpdate,
+    admin_user: dict = Depends(require_admin)
+):
     """
     Admin action: Updates complaint status (Open, Assigned, In Progress, Resolved).
     If status is set to 'Resolved', sets the resolution timestamp automatically.
@@ -27,7 +32,11 @@ def update_complaint_status(complaint_id: str, payload: StatusUpdate):
     return manager.get_complaint(complaint_id)
 
 @router.patch("/{complaint_id}/assign", response_model=ComplaintResponse)
-def reassign_complaint_department(complaint_id: str, payload: DepartmentAssign):
+def reassign_complaint_department(
+    complaint_id: str,
+    payload: DepartmentAssign,
+    admin_user: dict = Depends(require_admin)
+):
     """
     Admin action: Manually overrides department assignment for a complaint.
     """
@@ -44,3 +53,4 @@ def reassign_complaint_department(complaint_id: str, payload: DepartmentAssign):
             detail="Failed to update department assignment."
         )
     return manager.get_complaint(complaint_id)
+

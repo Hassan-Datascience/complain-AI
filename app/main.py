@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import complaints_router, admin_router, analytics_router
+from app.routes import complaints_router, admin_router, analytics_router, auth_router
 from app.services.database_manager import DatabaseManager
 
 SEED_DEPARTMENTS = [
@@ -21,6 +21,8 @@ async def lifespan(app: FastAPI):
     yield
     # Cleanup on shutdown (if any)
 
+from fastapi.staticfiles import StaticFiles
+
 app = FastAPI(
     title="AI Smart Civic Services API",
     description="End-to-End Backend for Civic Complaint Analysis, Prioritization & Analytics",
@@ -38,9 +40,14 @@ app.add_middleware(
 )
 
 # Register endpoints
+app.include_router(auth_router)
 app.include_router(complaints_router)
 app.include_router(admin_router)
 app.include_router(analytics_router)
+
+
+# Mount frontend UI
+app.mount("/ui", StaticFiles(directory="frontend", html=True), name="frontend")
 
 @app.get("/", tags=["Health"])
 def root():
@@ -48,9 +55,11 @@ def root():
         "status": "online",
         "service": "AI Smart Civic Services API",
         "version": "1.0.0",
-        "docs_url": "/docs"
+        "docs_url": "/docs",
+        "ui_url": "/ui/"
     }
 
 @app.get("/health", tags=["Health"])
 def health_check():
     return {"status": "healthy"}
+

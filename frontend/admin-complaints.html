@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>All Complaints - AI Smart Civic Services Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#213600",
+                        "on-background": "#dde4e1",
+                        "surface-container": "#1a211f",
+                        "surface-variant": "#2f3634",
+                        "primary": "#ccff80",
+                        "primary-container": "#a3e635",
+                        "background": "#0e1513",
+                        "on-surface": "#dde4e1",
+                        "on-surface-variant": "#c2cab0",
+                        "outline-variant": "#424936"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0e1513; color: #dde4e1; }
+        .glass-card { background-color: #1a211f; border: 1px solid #424936; }
+        .input-base { background-color: #1a211f; border: 1px solid #424936; color: #dde4e1; }
+        .input-base:focus { border-color: #ccff80; outline: none; }
+        .btn-secondary { background-color: transparent; border: 1px solid #7EE787; color: #7EE787; border-radius: 4px; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden antialiased font-body-md text-on-surface">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-64 bg-surface-container py-6 px-4 gap-4 shrink-0 border-r border-outline-variant/30">
+<div class="flex items-center gap-3 px-2 mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">admin_panel_settings</span>
+<div>
+<h1 class="font-bold text-primary text-base">Admin Portal</h1>
+<p class="text-xs text-on-surface-variant">Civic Management</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-variant rounded-lg text-sm" href="/ui/admin-dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary-container text-on-primary rounded-lg font-bold text-sm" href="/ui/admin-complaints.html">
+<span class="material-symbols-outlined">description</span>
+<span>All Complaints</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-variant rounded-lg text-sm" href="/ui/admin-analytics.html">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+</div>
+<div class="flex flex-col gap-1 mt-auto pt-4 border-t border-surface-variant">
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-variant rounded-lg text-sm" href="/ui/index.html">
+<span class="material-symbols-outlined">public</span>
+<span>Public Portal</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto bg-background p-6">
+<header class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+<div>
+<h2 class="text-2xl font-bold text-on-surface">All Complaints</h2>
+<p class="text-xs text-on-surface-variant">Filter, search, and manage municipal complaint dispatches.</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-sm font-semibold text-primary" id="complaints-count">0 Complaints</div>
+<div id="user-nav-container"></div>
+</div>
+</header>
+
+<!-- Filters Bar -->
+<div class="glass-card rounded-xl p-4 mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+<div>
+<label class="text-xs text-on-surface-variant block mb-1 font-medium">Category</label>
+<select class="input-base w-full p-2 text-xs rounded" id="filter-category">
+<option value="">All Categories</option>
+<option value="Road">Road</option>
+<option value="Water/Drainage">Water/Drainage</option>
+<option value="Waste">Waste</option>
+<option value="Electricity">Electricity</option>
+<option value="Safety">Safety</option>
+<option value="Other">Other</option>
+</select>
+</div>
+<div>
+<label class="text-xs text-on-surface-variant block mb-1 font-medium">Priority</label>
+<select class="input-base w-full p-2 text-xs rounded" id="filter-priority">
+<option value="">All Priorities</option>
+<option value="Critical">Critical</option>
+<option value="High">High</option>
+<option value="Medium">Medium</option>
+<option value="Low">Low</option>
+</select>
+</div>
+<div>
+<label class="text-xs text-on-surface-variant block mb-1 font-medium">Status</label>
+<select class="input-base w-full p-2 text-xs rounded" id="filter-status">
+<option value="">All Statuses</option>
+<option value="Open">Open</option>
+<option value="Assigned">Assigned</option>
+<option value="In Progress">In Progress</option>
+<option value="Resolved">Resolved</option>
+</select>
+</div>
+<div>
+<label class="text-xs text-on-surface-variant block mb-1 font-medium">Department</label>
+<select class="input-base w-full p-2 text-xs rounded" id="filter-department">
+<option value="">All Departments</option>
+<option value="Roads Department">Roads Department</option>
+<option value="Water Board">Water Board</option>
+<option value="Sanitation Department">Sanitation Department</option>
+<option value="Power Department">Power Department</option>
+<option value="Public Safety Department">Public Safety Department</option>
+<option value="General Services Department">General Services Department</option>
+</select>
+</div>
+<div>
+<label class="text-xs text-on-surface-variant block mb-1 font-medium">Search</label>
+<input class="input-base w-full p-2 text-xs rounded" id="filter-search" placeholder="ID or text..." type="text"/>
+</div>
+</div>
+<!-- Complaints Table -->
+<div class="glass-card rounded-xl overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container border-b border-outline-variant text-xs text-on-surface-variant uppercase">
+<th class="p-4">ID</th>
+<th class="p-4">Category</th>
+<th class="p-4">Description Snippet</th>
+<th class="p-4">Priority</th>
+<th class="p-4">Status</th>
+<th class="p-4">Assigned Department</th>
+<th class="p-4 text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 text-sm" id="complaints-tbody">
+<tr>
+<td colspan="7" class="p-8 text-center text-on-surface-variant">Loading complaints list...</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+<script src="/ui/js/api.js"></script>
+<script>checkAuth('admin');</script>
+<script src="/ui/js/complaints-list.js"></script>
+</body>
+</html>

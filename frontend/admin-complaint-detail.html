@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Complaint Detail - AI Smart Civic Services Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#213600",
+                        "on-background": "#dde4e1",
+                        "surface-container": "#1a211f",
+                        "surface-variant": "#2f3634",
+                        "primary": "#ccff80",
+                        "primary-container": "#a3e635",
+                        "background": "#0e1513",
+                        "on-surface": "#dde4e1",
+                        "on-surface-variant": "#c2cab0",
+                        "outline-variant": "#424936"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0e1513; color: #dde4e1; }
+        .glass-card { background-color: #1a211f; border: 1px solid #424936; }
+        .input-base { background-color: #1a211f; border: 1px solid #424936; color: #dde4e1; }
+        .btn-primary { background-color: #A3E635; color: #0D0F0D; font-weight: 600; }
+        .btn-primary:hover { background-color: #b2f746; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden antialiased font-body-md text-on-surface">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-64 bg-surface-container py-6 px-4 gap-4 shrink-0 border-r border-outline-variant/30">
+<div class="flex items-center gap-3 px-2 mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">admin_panel_settings</span>
+<div>
+<h1 class="font-bold text-primary text-base">Admin Portal</h1>
+<p class="text-xs text-on-surface-variant">Civic Management</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-variant rounded-lg text-sm" href="/ui/admin-dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary-container text-on-primary rounded-lg font-bold text-sm" href="/ui/admin-complaints.html">
+<span class="material-symbols-outlined">description</span>
+<span>All Complaints</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-variant rounded-lg text-sm" href="/ui/admin-analytics.html">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+</div>
+<div class="flex flex-col gap-1 mt-auto pt-4 border-t border-surface-variant">
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-variant rounded-lg text-sm" href="/ui/index.html">
+<span class="material-symbols-outlined">public</span>
+<span>Public Portal</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto bg-background p-6" id="detail-main-canvas">
+<div class="mb-6 flex items-center justify-between">
+<a href="/ui/admin-complaints.html" class="text-xs text-on-surface-variant hover:text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">arrow_back</span> Back to Complaints
+      </a>
+<div class="flex items-center gap-4">
+<div id="detail-status-badge"></div>
+<div id="detail-priority-badge"></div>
+<div id="user-nav-container"></div>
+</div>
+</div>
+
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Details Column -->
+<div class="lg:col-span-2 flex flex-col gap-6">
+<div class="glass-card rounded-xl p-6 flex flex-col gap-4">
+<div class="border-b border-outline-variant pb-4">
+<p class="text-xs text-on-surface-variant uppercase font-medium">COMPLAINT ID</p>
+<h2 class="text-2xl font-bold text-primary font-mono" id="detail-complaint-id">CMP-XXXXXX</h2>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant mb-1 font-semibold">Category</p>
+<p class="text-sm font-semibold text-on-surface" id="detail-category">Road</p>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant mb-1 font-semibold">Location</p>
+<p class="text-sm text-on-surface" id="detail-location">Location details...</p>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant mb-1 font-semibold">Submission Date</p>
+<p class="text-sm text-on-surface" id="detail-date">-</p>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant mb-1 font-semibold">Full Description</p>
+<p class="text-sm text-on-surface bg-surface-variant/30 p-4 rounded border border-outline-variant/40" id="detail-description">
+              Loading description...
+            </p>
+</div>
+</div>
+
+<!-- AI Summary Card -->
+<div class="glass-card rounded-xl p-6 border-primary/30">
+<p class="text-xs text-primary font-bold mb-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> AI Actionable Summary
+          </p>
+<p class="text-sm text-on-surface italic bg-primary/5 border border-primary/20 p-4 rounded" id="detail-ai-summary">
+            Generating summary...
+          </p>
+</div>
+</div>
+
+<!-- Actions Column -->
+<div class="flex flex-col gap-6">
+<div class="glass-card rounded-xl p-6 flex flex-col gap-6">
+<h3 class="font-bold text-base border-b border-outline-variant pb-3">Admin Actions</h3>
+
+<!-- Current Assigned Department -->
+<div>
+<p class="text-xs text-on-surface-variant mb-1 font-medium">Assigned Department</p>
+<p class="text-sm font-semibold text-primary mb-3" id="detail-department">Roads Department</p>
+
+<label class="text-xs text-on-surface-variant block mb-1 font-medium">Reassign Department</label>
+<select class="input-base w-full p-2 text-xs rounded mb-2" id="select-department">
+<option value="Roads Department">Roads Department</option>
+<option value="Water Board">Water Board</option>
+<option value="Sanitation Department">Sanitation Department</option>
+<option value="Power Department">Power Department</option>
+<option value="Public Safety Department">Public Safety Department</option>
+<option value="General Services Department">General Services Department</option>
+</select>
+<button class="btn-primary w-full py-2 text-xs rounded" id="btn-save-dept">
+              Save Department Reassignment
+            </button>
+<div id="dept-update-msg"></div>
+</div>
+
+<!-- Status Update -->
+<div class="border-t border-outline-variant pt-4">
+<label class="text-xs text-on-surface-variant block mb-1 font-medium">Update Status</label>
+<select class="input-base w-full p-2 text-xs rounded mb-2" id="select-status">
+<option value="Open">Open</option>
+<option value="Assigned">Assigned</option>
+<option value="In Progress">In Progress</option>
+<option value="Resolved">Resolved</option>
+</select>
+<button class="btn-primary w-full py-2 text-xs rounded" id="btn-save-status">
+              Save Status Update
+            </button>
+<div id="status-update-msg"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script src="/ui/js/api.js"></script>
+<script>checkAuth('admin');</script>
+<script src="/ui/js/complaint-detail.js"></script>
+</body>
+</html>

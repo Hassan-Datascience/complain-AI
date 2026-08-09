@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Citizen Home &amp; Submission - AI Smart Civic Services</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#213600",
+                        "on-background": "#dde4e1",
+                        "secondary-fixed": "#90fa97",
+                        "primary-fixed": "#b2f746",
+                        "on-primary-container": "#416400",
+                        "outline": "#8c947c",
+                        "secondary-fixed-dim": "#74dd7e",
+                        "on-secondary-container": "#c4ffc2",
+                        "surface-container": "#1a211f",
+                        "on-tertiary-fixed": "#2a1700",
+                        "surface-variant": "#2f3634",
+                        "surface-bright": "#343b38",
+                        "on-secondary": "#003910",
+                        "primary": "#ccff80",
+                        "primary-fixed-dim": "#98da27",
+                        "surface-tint": "#98da27",
+                        "surface-container-highest": "#2f3634",
+                        "on-primary-fixed-variant": "#334f00",
+                        "surface-container-high": "#252b29",
+                        "on-secondary-fixed-variant": "#00531b",
+                        "outline-variant": "#424936",
+                        "on-surface": "#dde4e1",
+                        "tertiary-container": "#ffc989",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "secondary-container": "#007f2d",
+                        "tertiary": "#ffecd9",
+                        "surface-dim": "#0e1513",
+                        "background": "#0e1513",
+                        "on-primary-fixed": "#121f00",
+                        "primary-container": "#a3e635",
+                        "surface": "#0e1513",
+                        "on-surface-variant": "#c2cab0",
+                        "tertiary-fixed": "#ffddb8",
+                        "surface-container-low": "#161d1b",
+                        "on-error": "#690005",
+                        "secondary": "#74dd7e",
+                        "on-tertiary-container": "#805000",
+                        "inverse-on-surface": "#2b3230",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-container-lowest": "#090f0e",
+                        "inverse-primary": "#446900",
+                        "inverse-surface": "#dde4e1",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#472a00",
+                        "on-secondary-fixed": "#002106"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0D0F0D; color: #dde4e1; }
+        .surface-card { background-color: #1A1D1A; border: 1px solid #2A2D2A; transition: all 0.2s ease; }
+        .surface-card:hover { border-color: rgba(163, 230, 53, 0.3); box-shadow: 0 4px 20px rgba(163, 230, 53, 0.1); }
+        .input-base { background-color: #1A1D1A; border: 1px solid #2A2D2A; border-radius: 8px; color: #dde4e1; transition: all 0.2s ease; }
+        .input-base:focus { border-color: #A3E635; box-shadow: 0 0 0 2px rgba(163, 230, 53, 0.2); outline: none; }
+        .input-base::placeholder { color: #6B7280; }
+        .btn-primary { background-color: #A3E635; color: #0D0F0D; border-radius: 8px; transition: all 0.2s ease; font-weight: 600; }
+        .btn-primary:hover { background-color: #b2f746; }
+        .btn-secondary { background-color: transparent; border: 1px solid #7EE787; color: #7EE787; border-radius: 8px; transition: all 0.2s ease; }
+        .btn-secondary:hover { background-color: rgba(126, 231, 135, 0.1); }
+    </style>
+</head>
+<body class="font-body-md bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface fixed top-0 w-full border-b border-outline-variant flex justify-between items-center h-16 px-6 z-50">
+<div class="flex items-center gap-8">
+<div class="font-headline-md font-extrabold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">account_balance</span>
+                AI Smart Civic Services
+            </div>
+<nav class="hidden md:flex gap-6 font-label-md">
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="/ui/index.html">Submit Issue</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="/ui/track.html">My Complaints</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="/ui/admin-dashboard.html">Admin Portal</a>
+</nav>
+</div>
+<div class="flex items-center gap-4" id="user-nav-container">
+<!-- User profile or login button injected by JS -->
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-24 px-4 md:px-8 pb-16 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Submission Form Area -->
+<div class="lg:col-span-8 flex flex-col gap-6" id="submission-flow">
+<!-- Form View -->
+<div class="flex flex-col gap-4" id="form-view">
+<div class="mb-2">
+<h1 class="font-headline-xl text-3xl font-extrabold text-on-background mb-2">Report a Civic Problem</h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl">Report issues like potholes, broken streetlights, or water leaks. Our AI instantly classifies, prioritizes, and routes your request to the right department.</p>
+</div>
+<div class="surface-card rounded-lg p-6 md:p-8 flex flex-col gap-6">
+<!-- Issue Description -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-on-background font-semibold" for="description">Detailed Description <span class="text-rose-400">*</span></label>
+<textarea class="input-base p-4 w-full font-body-md" id="description" placeholder="Please describe the issue in detail (at least 10 characters). E.g. 'Burst water pipe near Maple Street flooding front lawn...'" rows="5"></textarea>
+</div>
+<!-- Location Input -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-on-background font-semibold" for="location">Location / Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">location_on</span>
+<input class="input-base w-full pl-12 pr-4 py-3 font-body-md" id="location" placeholder="Enter street address or landmark (e.g. Maple Avenue near house 12)" type="text"/>
+</div>
+</div>
+<!-- Image Upload (Optional) -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-on-background font-semibold">Photo Evidence (Optional)</label>
+<div class="border-2 border-dashed border-outline-variant rounded-lg p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:border-primary transition-colors bg-surface-container-low">
+<span class="material-symbols-outlined text-on-surface-variant text-3xl mb-1">cloud_upload</span>
+<p class="font-label-md text-on-background">Click to select photo (UI Demonstration)</p>
+<p class="font-body-sm text-xs text-on-surface-variant">PNG, JPG up to 10MB</p>
+</div>
+</div>
+<div class="flex justify-end pt-4 border-t border-surface-variant">
+<button class="btn-primary px-8 py-3 font-label-md flex items-center gap-2" id="submit-btn">
+<span>Submit Report</span>
+<span class="material-symbols-outlined text-lg">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Success State (Hidden initially) -->
+<div class="hidden flex flex-col gap-4 h-full justify-center" id="success-view">
+<div class="surface-card rounded-lg p-8 md:p-10 flex flex-col items-center text-center gap-6 relative overflow-hidden">
+<div class="w-16 h-16 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 mb-1 border border-emerald-500/30">
+<span class="material-symbols-outlined text-3xl">check_circle</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-2xl font-bold text-on-background mb-1">Report Submitted Successfully</h2>
+<p class="font-body-lg text-on-surface-variant text-sm">Your complaint has been processed, categorized, and assigned by AI.</p>
+</div>
+<div class="w-full bg-surface-container-low rounded-lg p-6 flex flex-col gap-4 text-left border border-surface-variant">
+<div class="flex justify-between items-center border-b border-surface-variant pb-3">
+<div>
+<p class="text-xs text-on-surface-variant font-medium">COMPLAINT ID</p>
+<p class="font-mono text-primary font-bold text-lg" id="res-complaint-id">#CMP-XXXXXX</p>
+</div>
+<div class="text-right">
+<p class="text-xs text-on-surface-variant font-medium">PREDICTED CATEGORY</p>
+<p class="font-semibold text-on-background text-sm" id="res-category">Road</p>
+</div>
+</div>
+<div class="flex justify-between items-center border-b border-surface-variant pb-3">
+<div>
+<p class="text-xs text-on-surface-variant font-medium">ASSIGNED DEPARTMENT</p>
+<p class="font-semibold text-on-background text-sm" id="res-assigned-dept">Roads Department</p>
+</div>
+<div class="text-right">
+<p class="text-xs text-on-surface-variant font-medium mb-1">PRIORITY</p>
+<div id="res-priority-badge"></div>
+</div>
+</div>
+<div>
+<p class="text-xs text-on-surface-variant font-medium mb-1">AI ACTIONABLE SUMMARY</p>
+<p class="text-sm text-on-background italic bg-surface-variant/40 p-3 rounded border border-outline-variant/30" id="res-ai-summary">
+                        Summary will appear here...
+                    </p>
+</div>
+</div>
+<div class="flex gap-4 w-full justify-center">
+<button class="btn-secondary px-6 py-2.5 text-sm font-semibold" onclick="resetForm()">
+                    Report Another Issue
+                </button>
+<a class="btn-primary px-6 py-2.5 text-sm font-semibold flex items-center gap-2" id="res-track-link" href="/ui/track.html">
+                    View My Complaints <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<div class="surface-card rounded-lg p-6 flex flex-col gap-3">
+<h3 class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Automated AI Pipeline</h3>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl">auto_awesome</span>
+<div>
+<p class="text-sm font-semibold text-on-surface">Real-Time Processing</p>
+<p class="text-xs text-on-surface-variant">Powered by TF-IDF Classifier &amp; Groq Llama-3.3-70B</p>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant border-t border-surface-variant pt-3 mt-1">
+            Every submission is instantly evaluated for urgency and routed directly to municipal field officers.
+        </p>
+</div>
+</div>
+</main>
+<script src="/ui/js/api.js"></script>
+<script>checkAuth();</script>
+<script src="/ui/js/submit.js"></script>
+</body>
+</html>

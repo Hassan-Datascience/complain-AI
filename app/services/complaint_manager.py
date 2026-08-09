@@ -19,7 +19,8 @@ class ComplaintManager:
         self,
         description: str,
         location: Optional[str] = None,
-        date: Optional[str] = None
+        date: Optional[str] = None,
+        submitted_by: Optional[str] = None
     ) -> Dict[str, Any]:
         """
         Processes new complaint:
@@ -55,7 +56,8 @@ class ComplaintManager:
             "assigned_department": assigned_dept,
             "ai_summary": ai_summary,
             "ai_confidence": ai_confidence,
-            "ai_summary_fallback": ai_output.get("ai_summary_fallback", False)
+            "ai_summary_fallback": ai_output.get("ai_summary_fallback", False),
+            "submitted_by": submitted_by
         }
 
         # Persist to database
@@ -64,6 +66,10 @@ class ComplaintManager:
             raise RuntimeError("Database persistence error while inserting complaint.")
 
         return complaint_data
+
+    def list_complaints_by_user(self, user_id: str) -> List[Dict[str, Any]]:
+        return self.db.list_complaints_by_user(user_id)
+
 
     def get_complaint(self, complaint_id: str) -> Optional[Dict[str, Any]]:
         return self.db.get_complaint(complaint_id)

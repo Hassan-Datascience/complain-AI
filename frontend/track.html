@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Submitted Complaints - AI Smart Civic Services</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#213600",
+                        "on-background": "#dde4e1",
+                        "surface-container": "#1a211f",
+                        "surface-variant": "#2f3634",
+                        "primary": "#ccff80",
+                        "primary-container": "#a3e635",
+                        "background": "#0e1513",
+                        "on-surface": "#dde4e1",
+                        "on-surface-variant": "#c2cab0",
+                        "outline-variant": "#424936",
+                        "error": "#ffb4ab"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0E1513; color: #dde4e1; }
+        .surface-card { background-color: #1A211F; border: 1px solid #424936; }
+        .btn-primary { background-color: #A3E635; color: #0D0F0D; font-weight: 600; }
+        .btn-primary:hover { background-color: #b2f746; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased">
+<!-- TopAppBar -->
+<nav class="bg-surface border-b border-outline-variant fixed top-0 w-full z-50">
+<div class="flex justify-between items-center h-16 px-6 w-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">account_balance</span>
+<span class="font-bold text-primary text-lg">AI Smart Civic Services</span>
+</div>
+<div class="hidden md:flex items-center gap-8 text-sm">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="/ui/index.html">Submit Issue</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="/ui/track.html">My Complaints</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="/ui/admin-dashboard.html">Admin Portal</a>
+</div>
+<div class="flex items-center gap-4" id="user-nav-container"></div>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow pt-24 pb-12 px-6 flex flex-col max-w-5xl mx-auto w-full">
+<!-- Header Section -->
+<div class="w-full mb-8 flex justify-between items-end border-b border-outline-variant/40 pb-4">
+<div>
+<h1 class="text-3xl font-extrabold text-on-surface mb-1">My Complaints</h1>
+<p class="text-sm text-on-surface-variant">View resolution progress and AI summaries for all issues you have submitted.</p>
+</div>
+<a href="/ui/index.html" class="btn-primary px-4 py-2 text-xs font-semibold rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">add</span>
+<span>New Report</span>
+</a>
+</div>
+
+<!-- Complaints List / Cards Container -->
+<div class="w-full flex flex-col gap-4" id="my-complaints-list">
+<div class="surface-card rounded-xl p-8 text-center text-on-surface-variant">
+      Loading your submitted complaints...
+    </div>
+</div>
+</main>
+<script src="/ui/js/api.js"></script>
+<script>checkAuth();</script>
+<script src="/ui/js/track.js"></script>
+</body>
+</html>

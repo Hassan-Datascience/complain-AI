@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Login - AI Smart Civic Services</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary": "#213600",
+                        "on-background": "#dde4e1",
+                        "secondary-fixed": "#90fa97",
+                        "primary-fixed": "#b2f746",
+                        "on-primary-container": "#416400",
+                        "outline": "#8c947c",
+                        "secondary-fixed-dim": "#74dd7e",
+                        "on-secondary-container": "#c4ffc2",
+                        "surface-container": "#1a211f",
+                        "on-tertiary-fixed": "#2a1700",
+                        "surface-variant": "#2f3634",
+                        "surface-bright": "#343b38",
+                        "on-secondary": "#003910",
+                        "primary": "#ccff80",
+                        "primary-fixed-dim": "#98da27",
+                        "surface-tint": "#98da27",
+                        "surface-container-highest": "#2f3634",
+                        "on-primary-fixed-variant": "#334f00",
+                        "surface-container-high": "#252b29",
+                        "on-secondary-fixed-variant": "#00531b",
+                        "outline-variant": "#424936",
+                        "on-surface": "#dde4e1",
+                        "tertiary-container": "#ffc989",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "secondary-container": "#007f2d",
+                        "tertiary": "#ffecd9",
+                        "surface-dim": "#0e1513",
+                        "background": "#0e1513",
+                        "on-primary-fixed": "#121f00",
+                        "primary-container": "#a3e635",
+                        "surface": "#0e1513",
+                        "on-surface-variant": "#c2cab0",
+                        "tertiary-fixed": "#ffddb8",
+                        "surface-container-low": "#161d1b",
+                        "on-error": "#690005",
+                        "secondary": "#74dd7e",
+                        "on-tertiary-container": "#805000",
+                        "inverse-on-surface": "#2b3230",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-container-lowest": "#090f0e",
+                        "inverse-primary": "#446900",
+                        "inverse-surface": "#dde4e1",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#472a00",
+                        "on-secondary-fixed": "#002106"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        "container-padding-desktop": "32px",
+                        "container-padding-mobile": "16px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "gutter": "24px",
+                        "base": "8px"
+                    },
+                    fontFamily: {
+                        "headline-lg": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "700" }],
+                        "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "700" }],
+                        "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "label-md": ["14px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }],
+                        "headline-xl": ["40px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "800" }],
+                        "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                        "label-sm": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+                        "body-sm": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Emerald Grid Background Pattern */
+        .bg-emerald-grid {
+            background-image: 
+                linear-gradient(to right, rgba(66, 73, 54, 0.2) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(66, 73, 54, 0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-position: center center;
+        }
+        
+        /* Subtle glow effect for the card */
+        .card-glow {
+            box-shadow: 0 0 60px -15px rgba(163, 230, 53, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex items-center justify-center relative overflow-hidden font-body-md">
+<!-- Background Grid Layer -->
+<div class="absolute inset-0 bg-emerald-grid pointer-events-none z-0"></div>
+<!-- Decorative Radial Gradient for Depth -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-container rounded-full blur-[120px] opacity-5 pointer-events-none z-0"></div>
+<!-- Login Card Container -->
+<main class="relative z-10 w-full max-w-md px-container-padding-mobile md:px-0">
+<!-- Branding Header -->
+<div class="text-center mb-stack-lg">
+<div class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-surface-variant border border-outline-variant mb-stack-sm text-primary">
+<span class="material-symbols-outlined" style="font-size: 28px;">admin_panel_settings</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight">AI Smart Civic Services</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Admin Control Portal</p>
+</div>
+<!-- The Card Surface -->
+<div class="bg-surface-container border border-outline-variant rounded-xl p-stack-lg card-glow backdrop-blur-sm">
+<form action="#" class="flex flex-col gap-stack-md" method="POST">
+<!-- Username Field -->
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-label-md text-on-surface" for="username">Username</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">person</span>
+</div>
+<input class="w-full bg-surface-container-highest border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface font-body-md text-body-md placeholder:text-on-surface-variant focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="username" name="username" placeholder="Enter your admin ID" required="" type="text"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-stack-sm">
+<div class="flex justify-between items-center">
+<label class="font-label-md text-label-md text-on-surface" for="password">Password</label>
+<a class="font-label-sm text-label-sm text-primary hover:text-primary-container transition-colors" href="#">Forgot?</a>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-size: 20px;">lock</span>
+</div>
+<input class="w-full bg-surface-container-highest border border-outline-variant rounded-lg py-3 pl-10 pr-10 text-on-surface font-body-md text-body-md placeholder:text-on-surface-variant focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-3 flex items-center text-on-surface-variant hover:text-on-surface transition-colors" onclick="document.getElementById('password').type = document.getElementById('password').type === 'password' ? 'text' : 'password'" type="button">
+<span class="material-symbols-outlined" style="font-size: 20px;">visibility</span>
+</button>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full mt-stack-sm bg-primary-container text-on-primary-container font-label-md text-label-md rounded-lg py-3 px-4 flex items-center justify-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all border border-transparent hover:shadow-[0_0_15px_rgba(163,230,53,0.3)]" type="submit">
+<span>Login to Dashboard</span>
+<span class="material-symbols-outlined" style="font-size: 18px;">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Footer Info -->
+<div class="text-center mt-stack-lg">
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-60">
+                Authorized personnel only. Sessions are monitored.
+            </p>
+</div>
+</main>
+</body></html>

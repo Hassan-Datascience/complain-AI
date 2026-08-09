@@ -11,7 +11,7 @@ class AIAnalyzer:
     """
     AI Core Engine:
     1. Classification & Priority via trained TF-IDF + Logistic Regression ML models
-    2. Actionable Summarization via Anthropic Claude LLM API (with fallback handling)
+    2. Actionable Summarization via Groq LLM API (with fallback handling)
     """
 
     def __init__(self, model_dir: Optional[str] = None):
@@ -80,37 +80,42 @@ class AIAnalyzer:
 
     def summarize(self, text: str) -> Tuple[str, bool]:
         """
-        Summarizes complaint text using LLM API.
+        Summarizes complaint text using Groq API.
         Returns tuple: (summary_string, fallback_used_boolean)
         """
-        api_key = settings.ANTHROPIC_API_KEY
+        api_key = settings.GROQ_API_KEY
         if not api_key:
             # Fallback if API key not configured
             summary = text[:120] + "..." if len(text) > 120 else text
             return summary, True
 
         try:
-            import anthropic
-            client = anthropic.Anthropic(api_key=api_key)
+            from groq import Groq
 
-            system_prompt = (
-                "You are a civic service assistant. Summarize the following citizen "
-                "complaint in exactly one actionable sentence for a municipal service team. "
-                "Do not add information not present in the complaint. Do not include "
-                "greetings or explanations — output only the summary sentence."
-            )
+            client = Groq(api_key=api_key)
 
-            response = client.messages.create(
-                model="claude-sonnet-4-6",
-                max_tokens=100,
+            response = client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
                 temperature=0.2,
-                system=system_prompt,
+                max_tokens=100,
                 messages=[
-                    {"role": "user", "content": text}
-                ]
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are a civic service assistant. Summarize the following citizen "
+                            "complaint in exactly one actionable sentence for a municipal service team. "
+                            "Do not add information not present in the complaint. Do not include "
+                            "greetings or explanations - output only the summary sentence."
+                        ),
+                    },
+                    {
+                        "role": "user",
+                        "content": text,
+                    },
+                ],
             )
 
-            summary_text = response.content[0].text.strip()
+            summary_text = response.choices[0].message.content.strip()
             return summary_text, False
         except Exception as e:
             logger.error(f"LLM Summarization API call failed: {e}. Using fallback.")

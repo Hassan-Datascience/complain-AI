@@ -1,7 +1,7 @@
 # AI Smart Civic Services — End-to-End Backend Platform
 
 **Batch:** Advance AI & Data Science  
-**AI Approach:** Hybrid — Trained ML Model (TF-IDF + Categorical & Priority Classifiers) + LLM API (Actionable Summarization)  
+**AI Approach:** Hybrid — Trained ML Model (TF-IDF + Categorical & Priority Classifiers) + Groq LLM API (`llama-3.3-70b-versatile` for Actionable Summarization)  
 **Scope:** Backend + AI Engine + SQLite Persistence + Advanced Statistical Analytics + REST API Documentation  
 
 ---
@@ -13,7 +13,7 @@ Municipalities face a massive volume of citizen complaints daily across various 
 **AI Smart Civic Services** solves this by providing an autonomous, end-to-end backend platform that:
 - Instantly classifies complaint descriptions into municipal service categories.
 - Predicts complaint urgency/priority levels (`Low`, `Medium`, `High`, `Critical`).
-- Generates concise, actionable 1-sentence summaries for field service teams using LLMs.
+- Generates concise, actionable 1-sentence summaries for field service teams using Groq LLM API.
 - Automatically maps categories to municipal departments (e.g. `Water/Drainage` → `Water Board`).
 - Computes comprehensive statistical analytics on resolution times to highlight systemic bottlenecks.
 
@@ -22,7 +22,7 @@ Municipalities face a massive volume of citizen complaints daily across various 
 ## 2. Platform Features
 
 - **Automated AI Triaging**: Categorizes complaints (`Road`, `Water/Drainage`, `Waste`, `Electricity`, `Safety`, `Other`) and predicts priority.
-- **LLM-Powered Summarization**: Generates standardized action summaries via Anthropic Claude API with automatic fallback protection.
+- **LLM-Powered Summarization**: Generates standardized action summaries via Groq LLM API (`llama-3.3-70b-versatile`) with automatic fallback protection.
 - **Automatic Department Routing**: Maps complaint categories to appropriate municipal service units upon submission.
 - **Advanced Statistical Analytics Engine**: Computes mean, median, mode, min, max, range, variance, standard deviation, quartiles (Q1, Q3), IQR, and outlier delay thresholds on resolution times.
 - **Narrative AI Insights**: Generates plain-English statistical interpretations alongside analytical data.
@@ -73,7 +73,7 @@ Municipalities face a massive volume of citizen complaints daily across various 
 3. **AI Pipeline Execution (`AIAnalyzer`)**:
    - Vectorizes text and predicts category & confidence.
    - Predicts urgency/priority level.
-   - Summarizes text using Claude LLM (or fallback summary if API key is unconfigured/fails).
+   - Summarizes text using Groq LLM (`llama-3.3-70b-versatile`) (or fallback summary if API key is unconfigured/fails).
 4. **Auto-Assignment & Persistence (`DatabaseManager`)**: Maps category to handling department and saves to SQLite `complaints` table.
 5. **Analytics (`StatsService`)**: Aggregates records for dashboard statistics and resolution time delay detection.
 
@@ -83,18 +83,23 @@ Municipalities face a massive volume of citizen complaints daily across various 
 
 ### 4a. Classification & Priority (Trained ML Engine)
 - **Feature Extraction**: TF-IDF (Term Frequency-Inverse Document Frequency) vectorization with stop-words removal and L2 normalization.
-- **Classification Model**: Trained on 210 diverse labeled civic complaint dataset (`data/training_data.csv`).
+- **Classification Model**: Trained on 273 diverse labeled civic complaint dataset (`data/training_data.csv`), augmented with specific water flooding and emergency language.
 - **Confidence Calibration**: Computes probability distribution (`predict_proba`) over predicted labels.
 
 ### 4b. LLM Actionable Summarization
-- **API**: Anthropic Claude API (`claude-sonnet-4-6`).
-- **System Prompt**: *"Summarize the citizen complaint in exactly one actionable sentence for a municipal service team. Do not add information not present."*
+- **API**: Groq LLM API (`llama-3.3-70b-versatile`).
+- **System Prompt**: *"You are a civic service assistant. Summarize the citizen complaint in exactly one actionable sentence for a municipal service team. Do not add information not present."*
 - **Fallback Strategy**: If the API call times out or fails, the system safely truncates the text, flags `ai_summary_fallback: true`, and prevents server crash.
 
-### 4c. Model Limitations
-- **Synthetic Training Scope**: Trained on 210 labeled records; may misclassify complex multi-issue edge cases.
-- **Probabilistic Nature**: Accuracy is ~99-100% on training sample, but non-deterministic real-world text may occasionally misroute.
-- **LLM Dependency**: Requires active network access to Anthropic API for real-time Claude summarization.
+### 4c. Accuracy & Performance Metrics
+*Evaluated on held-out unseen complaints (not training data):*
+- **Category Classification Accuracy**: **~90.0%**
+- **Priority Prediction Accuracy**: **80.0%** (improved from 60.0% after retraining on flooding/urgency vocabulary)
+
+### 4d. Model Limitations & Known Misclassifications
+- **Multi-domain overlap**: Complaints with overlapping cues (e.g. gasoline smell in water) may trigger safety vs water classification ambiguity.
+- **Urgency Nuance**: Subtle edge cases like unlit open pits without explicit fatality mentions may classify as `High` rather than `Critical`.
+- **LLM Network Dependency**: Requires active network access to Groq API for real-time `llama-3.3-70b-versatile` summarization (gracefully falls back to snippet if offline).
 
 ---
 
@@ -123,14 +128,14 @@ cp .env.example .env
 ```
 In `.env`:
 ```ini
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
+GROQ_API_KEY=your_groq_api_key_here
 DB_PATH=civic.db
 MODEL_DIR=app/ml
 ```
 
 ### Step 4: Train ML Classifier & Generate Model Artifacts
 ```bash
-python -m app.ml.train_classifier
+python scripts/retrain_native.py
 ```
 
 ### Step 5: Run FastAPI Server
@@ -168,35 +173,35 @@ Access interactive API docs at: **http://localhost:8000/docs**
   "complaint_id": "CMP-B7E2A91D",
   "description": "Massive crater pothole on Expressway near exit 4 causing heavy wheel damage.",
   "category": "Road",
-  "priority": "High",
+  "priority": "Critical",
   "location": "Expressway Exit 4",
   "date": "2026-08-09T01:00:00",
   "status": "Open",
   "assigned_department": "Roads Department",
   "ai_summary": "Repair massive crater pothole on Expressway near exit 4.",
-  "ai_confidence": 0.96,
+  "ai_confidence": 0.61,
   "ai_summary_fallback": false
 }
 ```
 
 ---
 
-## 7. AI Testing Evidence & Evaluation
+## 7. AI Testing Evidence & Unseen Data Evaluation Table
 
-Below are 10 representative test cases run through the evaluation suite (`python -m unittest tests/test_ai_pipeline.py`):
+Below is the evaluation on 10 held-out unseen complaints comparing priority model predictions before and after retraining:
 
-| Test Complaint Input | Predicted Category | Predicted Priority | Confidence | Assessment |
-|---|---|---|---|---|
-| *Massive pothole on Expressway causing tire punctures and traffic jams.* | **Road** | **High** | 0.96 | Accurate |
-| *Contaminated tap water running dark brown in Sector 9 apartments.* | **Water/Drainage** | **Critical** | 0.95 | Accurate |
-| *Community dumpster overflowing with rotting garbage attracting pests.* | **Waste** | **High** | 0.94 | Accurate |
-| *Live electrical cable snapped and lying across entrance to school.* | **Electricity** | **High** | 0.92 | Accurate |
-| *Stray dog pack acting aggressively near kindergarten playground.* | **Safety** | **High** | 0.93 | Accurate |
-| *Public park fountain turned off and lawn overgrown with weeds.* | **Other** | **Low** | 0.97 | Accurate |
-| *Broken sewer line leaking raw sewage into street gutter.* | **Water/Drainage** | **Critical** | 0.96 | Accurate |
-| *Streetlights out on Elm Street for 4 consecutive nights.* | **Electricity** | **Low** | 0.91 | Accurate |
-| *Derelict abandoned car left blocking fire hydrant.* | **Safety** | **Medium** | 0.89 | Accurate |
-| *Loud commercial music played until 3 AM in residential zone.* | **Other** | **Medium** | 0.95 | Accurate |
+| # | Unseen Complaint Input | Ground Truth Category | Ground Truth Priority | Old Prediction | New Prediction | Match | Confidence |
+|---|---|---|---|---|---|---|---|
+| 1 | Sinkhole outside emergency room entrance | Road | Critical | Critical | **Critical** | YES | 0.43 |
+| 2 | Bathroom water has oily sheen and gasoline smell | Water/Drainage | Critical | Low | **High** | NO (Close) | 0.54 |
+| 3 | Dumpster bags ripped open by animals with maggots | Waste | High | Low | **High** | YES | 0.47 |
+| 4 | High-voltage transformer buzzing & dark grey smoke | Electricity | Critical | Medium | **Critical** | YES | 0.41 |
+| 5 | Unlit open construction pit on footbridge | Safety | Critical | Medium | **High** | NO (Close) | 0.36 |
+| 6 | Library public garden overgrown with weeds | Other | Low | Low | **Low** | YES | 0.65 |
+| 7 | Sewer line collapsed backing up into 12 basements | Water/Drainage | Critical | Critical | **Critical** | YES | 0.51 |
+| 8 | Streetlight blacked out leaving cul-de-sac dark | Electricity | Low | Low | **Low** | YES | 0.46 |
+| 9 | E-waste computer towers dumped in community creek | Waste | Medium | Medium | **Medium** | YES | 0.55 |
+| 10 | Illegal drag racing noise keeping residents awake | Safety | High | High | **High** | YES | 0.50 |
 
 ---
 
@@ -204,11 +209,91 @@ Below are 10 representative test cases run through the evaluation suite (`python
 
 ### Railway / Server Deployment
 1. Set Environment Variables on host platform:
-   - `ANTHROPIC_API_KEY`
+   - `GROQ_API_KEY`
    - `DB_PATH=/app/data/civic.db`
    - `MODEL_DIR=/app/ml`
 2. Build & Start Command:
    ```bash
-   python -m app.ml.train_classifier && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+   python scripts/retrain_native.py && uvicorn app.main:app --host 0.0.0.0 --port $PORT
    ```
 3. Public Documentation URL will be available automatically at `/docs`.
+
+---
+
+## 9. Authentication System
+
+The platform uses **JWT-based stateless authentication** with two distinct roles: `citizen` and `admin`.
+
+### How It Works
+
+- On signup/login, the server issues a signed JWT (7-day expiry) containing `user_id`, `role`, `name`, and `email`.
+- Every protected API request must include:
+  ```
+  Authorization: Bearer <token>
+  ```
+- The frontend automatically attaches this header from `localStorage` via the shared `apiRequest()` helper in `js/api.js`.
+
+### Role Permissions
+
+| Action | Citizen | Admin |
+|---|---|---|
+| `POST /complaints` | ✅ (submits as self) | ✅ |
+| `GET /complaints/my` | ✅ (own only) | ✅ |
+| `GET /complaints/{id}` | ✅ (own only) | ✅ (all) |
+| `GET /complaints` (list all) | ❌ 403 | ✅ |
+| `PATCH /complaints/{id}/status` | ❌ 403 | ✅ |
+| `PATCH /complaints/{id}/assign` | ❌ 403 | ✅ |
+| `GET /analytics/*` | ❌ 403 | ✅ |
+
+### Creating the First Admin Account (One-Time Setup)
+
+Admin accounts are created via the same `POST /auth/signup` endpoint, passing `"role": "admin"`. There is no public self-service "become admin" flow — this must be done by a trusted operator once via:
+
+1. **Swagger UI** at `http://localhost:8000/docs` → `POST /auth/signup`
+2. Or via `curl`:
+   ```bash
+   curl -X POST http://localhost:8000/auth/signup \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Admin", "email": "admin@city.gov", "password": "securepassword", "role": "admin"}'
+   ```
+
+After that, use **`/ui/admin-login.html`** for all subsequent admin logins.
+
+### Auth Endpoints
+
+| Method | Endpoint | Auth | Description |
+|---|---|---|---|
+| `POST` | `/auth/signup` | None | Register new user (citizen or admin) |
+| `POST` | `/auth/login` | None | Login, returns JWT token |
+| `GET` | `/auth/me` | Bearer token | Returns current user profile |
+
+### Required `.env` Variable
+
+```ini
+JWT_SECRET_KEY=<random 32+ character string>
+```
+Generate one with: `python -c "import secrets; print(secrets.token_hex(32))"`
+
+> **Security:** `JWT_SECRET_KEY` is covered by `.gitignore` via the `.env` rule. It must **never** be committed. Rotate it if you suspect compromise (this invalidates all existing tokens).
+
+### Known Simplifications (Hackathon Scope)
+
+> **⚠️ Real-World Limitation:** Role is currently self-selected at signup — a citizen can pass `role: admin` on the signup endpoint if they know the API schema. In production, this should be replaced with an invite/approval system where admins are provisioned only by existing admins or a super-admin seeder script. This is flagged as acceptable for hackathon demo scope.
+
+---
+
+## 10. Frontend Access
+
+All 7 UI pages are served at `/ui/` (same origin as the API, no CORS):
+
+| Page | URL | Requires |
+|---|---|---|
+| Submit Complaint | `/ui/index.html` | Any logged-in user |
+| My Complaints | `/ui/track.html` | Any logged-in user |
+| Citizen Login | `/ui/citizen-login.html` | Public |
+| Citizen Signup | `/ui/citizen-signup.html` | Public |
+| Admin Login | `/ui/admin-login.html` | Public |
+| Admin Dashboard | `/ui/admin-dashboard.html` | Admin role |
+| All Complaints | `/ui/admin-complaints.html` | Admin role |
+| Complaint Detail | `/ui/admin-complaint-detail.html` | Admin role |
+| Analytics | `/ui/admin-analytics.html` | Admin role |

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Analytics &amp; Insights - AI Smart Civic Services Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#213600",
+                        "on-background": "#dde4e1",
+                        "surface-container": "#1a211f",
+                        "surface-variant": "#2f3634",
+                        "primary": "#ccff80",
+                        "primary-container": "#a3e635",
+                        "background": "#0e1513",
+                        "on-surface": "#dde4e1",
+                        "on-surface-variant": "#c2cab0",
+                        "outline-variant": "#424936"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0e1513; color: #dde4e1; }
+        .glass-card { background-color: #1a211f; border: 1px solid #424936; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden antialiased font-body-md text-on-surface">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-64 bg-surface-container py-6 px-4 gap-4 shrink-0 border-r border-outline-variant/30">
+<div class="flex items-center gap-3 px-2 mb-4">
+<span class="material-symbols-outlined text-primary text-3xl">admin_panel_settings</span>
+<div>
+<h1 class="font-bold text-primary text-base">Admin Portal</h1>
+<p class="text-xs text-on-surface-variant">Civic Management</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-variant rounded-lg text-sm" href="/ui/admin-dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-variant rounded-lg text-sm" href="/ui/admin-complaints.html">
+<span class="material-symbols-outlined">description</span>
+<span>All Complaints</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary-container text-on-primary rounded-lg font-bold text-sm" href="/ui/admin-analytics.html">
+<span class="material-symbols-outlined">analytics</span>
+<span>Analytics</span>
+</a>
+</div>
+<div class="flex flex-col gap-1 mt-auto pt-4 border-t border-surface-variant">
+<a class="flex items-center gap-3 px-3 py-2.5 text-on-surface-variant hover:bg-surface-variant rounded-lg text-sm" href="/ui/index.html">
+<span class="material-symbols-outlined">public</span>
+<span>Public Portal</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto bg-background p-6">
+<header class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+<div>
+<h2 class="text-2xl font-bold text-on-surface">Statistical Analytics &amp; Insights</h2>
+<p class="text-xs text-on-surface-variant">Detailed resolution time statistical distribution and systemic bottleneck detection.</p>
+</div>
+<div id="user-nav-container"></div>
+</header>
+
+
+<!-- AI Statistical Narrative Summary Card -->
+<div class="glass-card rounded-xl p-6 mb-6 border-primary/30">
+<div class="flex items-center gap-2 mb-2 text-primary">
+<span class="material-symbols-outlined">auto_awesome</span>
+<h3 class="font-bold text-base">Statistical Interpretation</h3>
+</div>
+<p class="text-sm text-on-surface leading-relaxed" id="stats-interpretation-text">
+      Computing statistical distribution across resolved complaints...
+    </p>
+</div>
+
+<!-- Resolution Time Stats Grid -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6" id="stats-grid-container">
+<div class="glass-card rounded-xl p-4">
+<p class="text-xs text-on-surface-variant uppercase font-semibold">Mean Resolution Time</p>
+<p class="text-2xl font-bold text-primary mt-1" id="stat-mean">0h</p>
+</div>
+<div class="glass-card rounded-xl p-4">
+<p class="text-xs text-on-surface-variant uppercase font-semibold">Median Resolution Time</p>
+<p class="text-2xl font-bold text-on-surface mt-1" id="stat-median">0h</p>
+</div>
+<div class="glass-card rounded-xl p-4">
+<p class="text-xs text-on-surface-variant uppercase font-semibold">Mode Resolution Time</p>
+<p class="text-2xl font-bold text-on-surface mt-1" id="stat-mode">0h</p>
+</div>
+<div class="glass-card rounded-xl p-4">
+<p class="text-xs text-on-surface-variant uppercase font-semibold">Range (Min - Max)</p>
+<p class="text-lg font-bold text-on-surface mt-1" id="stat-range">0h - 0h</p>
+</div>
+<div class="glass-card rounded-xl p-4">
+<p class="text-xs text-on-surface-variant uppercase font-semibold">Standard Deviation</p>
+<p class="text-xl font-bold text-on-surface mt-1" id="stat-std-dev">0h</p>
+</div>
+<div class="glass-card rounded-xl p-4">
+<p class="text-xs text-on-surface-variant uppercase font-semibold">Variance</p>
+<p class="text-xl font-bold text-on-surface mt-1" id="stat-variance">0</p>
+</div>
+<div class="glass-card rounded-xl p-4 col-span-2">
+<p class="text-xs text-on-surface-variant uppercase font-semibold">Interquartile Range (IQR)</p>
+<p class="text-sm font-bold text-on-surface mt-1" id="stat-iqr">0h (Q1: 0h, Q3: 0h)</p>
+</div>
+</div>
+
+<!-- Daily Submission Trends -->
+<div class="glass-card rounded-xl p-6">
+<h3 class="font-bold text-lg mb-1">Daily Submission Volume Trends</h3>
+<p class="text-xs text-on-surface-variant mb-4">Historical daily complaints count breakdown.</p>
+<div class="flex flex-col gap-2" id="trends-data-list">
+<p class="text-xs text-on-surface-variant">Loading daily trends...</p>
+</div>
+</div>
+</main>
+<script src="/ui/js/api.js"></script>
+<script>checkAuth('admin');</script>
+<script src="/ui/js/analytics.js"></script>
+</body>
+</html>

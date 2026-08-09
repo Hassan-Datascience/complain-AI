@@ -46,6 +46,7 @@ class DatabaseManager:
                     ai_summary TEXT,
                     ai_confidence REAL,
                     resolved_at TIMESTAMP,
+                    submitted_by TEXT,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
@@ -56,10 +57,26 @@ class DatabaseManager:
                     category_handled TEXT
                 )
             """)
-            # Indexes for the filter/search endpoints (Step 11 of the plan)
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS users (
+                    user_id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    email TEXT UNIQUE NOT NULL,
+                    password_hash TEXT NOT NULL,
+                    role TEXT NOT NULL CHECK(role IN ('citizen', 'admin')),
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+            # Migration check: add submitted_by if missing in existing database
+            cols = [r["name"] for r in conn.execute("PRAGMA table_info(complaints)").fetchall()]
+            if "submitted_by" not in cols:
+                conn.execute("ALTER TABLE complaints ADD COLUMN submitted_by TEXT")
+
+            # Indexes for the filter/search endpoints
             conn.execute("CREATE INDEX IF NOT EXISTS idx_category ON complaints(category)")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_priority ON complaints(priority)")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_status ON complaints(status)")
+            conn.execute("CREATE INDEX IF NOT EXISTS idx_submitted_by ON complaints(submitted_by)")
 
             # Auto-seed default departments if table is empty
             count = conn.execute("SELECT COUNT(*) FROM departments").fetchone()[0]
@@ -77,12 +94,47 @@ class DatabaseManager:
                     defaults
                 )
 
+    # ---------- USERS ----------
+    def create_user(self, user_dict: dict) -> bool:
+        """
+        user_dict: user_id, name, email, password_hash, role
+        """
+        try:
+            with self._get_connection() as conn:
+                conn.execute("""
+                    INSERT INTO users (user_id, name, email, password_hash, role)
+                    VALUES (?, ?, ?, ?, ?)
+                """, (
+                    user_dict["user_id"],
+                    user_dict["name"],
+                    user_dict["email"].lower().strip(),
+                    user_dict["password_hash"],
+                    user_dict["role"]
+                ))
+            return True
+        except sqlite3.IntegrityError:
+            return False
+
+    def get_user_by_email(self, email: str) -> Optional[dict]:
+        with self._get_connection() as conn:
+            row = conn.execute(
+                "SELECT * FROM users WHERE LOWER(email) = ?", (email.lower().strip(),)
+            ).fetchone()
+            return dict(row) if row else None
+
+    def get_user_by_id(self, user_id: str) -> Optional[dict]:
+        with self._get_connection() as conn:
+            row = conn.execute(
+                "SELECT * FROM users WHERE user_id = ?", (user_id,)
+            ).fetchone()
+            return dict(row) if row else None
+
     # ---------- CREATE ----------
     def insert_complaint(self, complaint: dict) -> bool:
         """
         complaint dict expected keys:
         complaint_id, description, category, priority, location, date,
-        status, assigned_department, ai_summary, ai_confidence
+        status, assigned_department, ai_summary, ai_confidence, submitted_by
         """
         try:
             with self._get_connection() as conn:
@@ -90,8 +142,8 @@ class DatabaseManager:
                     INSERT INTO complaints (
                         complaint_id, description, category, priority,
                         location, date, status, assigned_department,
-                        ai_summary, ai_confidence
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        ai_summary, ai_confidence, submitted_by
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     complaint["complaint_id"],
                     complaint["description"],
@@ -103,13 +155,14 @@ class DatabaseManager:
                     complaint.get("assigned_department"),
                     complaint.get("ai_summary"),
                     complaint.get("ai_confidence"),
+                    complaint.get("submitted_by"),
                 ))
             return True
         except sqlite3.IntegrityError:
-            # duplicate complaint_id
             return False
         except sqlite3.Error:
             return False
+
 
     # ---------- READ ----------
     def get_complaint(self, complaint_id: str) -> Optional[dict]:
@@ -158,7 +211,16 @@ class DatabaseManager:
             rows = conn.execute(query, params).fetchall()
             return [dict(r) for r in rows]
 
+    def list_complaints_by_user(self, user_id: str) -> list[dict]:
+        with self._get_connection() as conn:
+            rows = conn.execute(
+                "SELECT * FROM complaints WHERE submitted_by = ? ORDER BY created_at DESC",
+                (user_id,)
+            ).fetchall()
+            return [dict(r) for r in rows]
+
     # ---------- UPDATE ----------
+
     def update_status(self, complaint_id: str, status: str) -> bool:
         valid_statuses = {"Open", "Assigned", "In Progress", "Resolved"}
         if status not in valid_statuses:

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Citizen Home &amp; Submission - AI Smart Civic Services</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#213600",
+                        "on-background": "#dde4e1",
+                        "secondary-fixed": "#90fa97",
+                        "primary-fixed": "#b2f746",
+                        "on-primary-container": "#416400",
+                        "outline": "#8c947c",
+                        "secondary-fixed-dim": "#74dd7e",
+                        "on-secondary-container": "#c4ffc2",
+                        "surface-container": "#1a211f",
+                        "on-tertiary-fixed": "#2a1700",
+                        "surface-variant": "#2f3634",
+                        "surface-bright": "#343b38",
+                        "on-secondary": "#003910",
+                        "primary": "#ccff80",
+                        "primary-fixed-dim": "#98da27",
+                        "surface-tint": "#98da27",
+                        "surface-container-highest": "#2f3634",
+                        "on-primary-fixed-variant": "#334f00",
+                        "surface-container-high": "#252b29",
+                        "on-secondary-fixed-variant": "#00531b",
+                        "outline-variant": "#424936",
+                        "on-surface": "#dde4e1",
+                        "tertiary-container": "#ffc989",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "secondary-container": "#007f2d",
+                        "tertiary": "#ffecd9",
+                        "surface-dim": "#0e1513",
+                        "background": "#0e1513",
+                        "on-primary-fixed": "#121f00",
+                        "primary-container": "#a3e635",
+                        "surface": "#0e1513",
+                        "on-surface-variant": "#c2cab0",
+                        "tertiary-fixed": "#ffddb8",
+                        "surface-container-low": "#161d1b",
+                        "on-error": "#690005",
+                        "secondary": "#74dd7e",
+                        "on-tertiary-container": "#805000",
+                        "inverse-on-surface": "#2b3230",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-container-lowest": "#090f0e",
+                        "inverse-primary": "#446900",
+                        "inverse-surface": "#dde4e1",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#472a00",
+                        "on-secondary-fixed": "#002106"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-desktop": "32px",
+                        "container-padding-mobile": "16px",
+                        "stack-md": "16px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "gutter": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #0D0F0D;
+            color: #dde4e1;
+        }
+        .surface-card {
+            background-color: #1A1D1A;
+            border: 1px solid #2A2D2A;
+            transition: all 0.2s ease;
+        }
+        .surface-card:hover {
+            border-color: rgba(163, 230, 53, 0.3);
+            box-shadow: 0 4px 20px rgba(163, 230, 53, 0.1);
+        }
+        
+        /* Input Styles */
+        .input-base {
+            background-color: #1A1D1A;
+            border: 1px solid #2A2D2A;
+            border-radius: 8px;
+            color: #dde4e1;
+            transition: all 0.2s ease;
+        }
+        .input-base:focus {
+            border-color: #A3E635;
+            box-shadow: 0 0 0 2px rgba(163, 230, 53, 0.2);
+            outline: none;
+        }
+        .input-base::placeholder {
+            color: #6B7280;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background-color: #A3E635;
+            color: #0D0F0D;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #b2f746;
+        }
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid #7EE787;
+            color: #7EE787;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .btn-secondary:hover {
+            background-color: rgba(126, 231, 135, 0.1);
+        }
+
+        /* Badge Styles */
+        .badge-critical {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: #EF4444;
+            border-radius: 9999px;
+            padding: 4px 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .badge-critical::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: #EF4444;
+        }
+    </style>
+</head>
+<body class="font-body-md bg-background text-on-background min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface text-primary dark:text-primary font-headline-md text-headline-md font-label-md text-label-md fixed top-0 w-full border-b border-outline-variant flat no shadows flex justify-between items-center h-16 px-container-padding-desktop w-full z-50">
+<div class="flex items-center gap-8">
+<div class="font-headline-md text-headline-md font-extrabold text-primary">
+                AI Smart Civic Services
+            </div>
+<nav class="hidden md:flex gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95 transition-transform" href="#">Home</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 hover:text-primary transition-colors duration-200 active:scale-95 transition-transform" href="#">Submit</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95 transition-transform" href="#">Track Status</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95 transition-transform">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow pt-24 px-container-padding-mobile md:px-container-padding-desktop pb-16 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Submission Form Area -->
+<div class="lg:col-span-8 flex flex-col gap-stack-lg" id="submission-flow">
+<!-- Form View -->
+<div class="flex flex-col gap-stack-md" id="form-view">
+<div class="mb-4">
+<h1 class="font-headline-xl text-headline-xl text-on-background mb-2">Report a local problem</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Use this form to quickly report issues like potholes, broken streetlights, or illegal dumping. Our AI will automatically categorize and route your submission to the correct department.</p>
+</div>
+<div class="surface-card rounded-lg p-6 md:p-8 flex flex-col gap-stack-lg">
+<!-- Issue Description -->
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-label-md text-on-background" for="description">Detailed Description</label>
+<textarea class="input-base p-4 w-full font-body-md text-body-md" id="description" placeholder="Please describe the issue in as much detail as possible. For example: 'There is a large pothole in the right lane going north, just past the intersection...'" rows="5"></textarea>
+</div>
+<!-- Location Input -->
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-label-md text-on-background" for="location">Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">location_on</span>
+<input class="input-base w-full pl-12 pr-4 py-3 font-body-md text-body-md" id="location" placeholder="Enter address or drag pin on map" type="text"/>
+</div>
+<div class="h-48 w-full rounded-lg overflow-hidden border border-outline-variant mt-2 relative">
+<div class="bg-cover bg-center w-full h-full opacity-60" data-alt="A highly detailed, modern dark-mode digital map interface showing a city grid. The map uses a sophisticated palette of deep slate grays and muted teal tones, with bright neon lime-green accents highlighting specific streets and a central location pin. The overall style is high-tech, precise, and professional, evoking a smart-city civic tech platform." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD0UJc6GXhK8vK7YIBvt3HllvguImeEorJX00bImtWWWc4X_b1Oyb-r0yEh_1upOVKRccCC4Bd7MACF_jgwJqOsdKkB1Nyw-qWjJPAq8qxNW53xiZG5OhVG3KJS8FUBxZU-A0cbHzql7r3Nd93V2jRC4Ag8vvmkj7PNuQ7DL0SdEsx9ETkk5U74VxAuNHaJM0p2yQDUZ69cMApZjMgiAc1Yq6TSQgrcDzKhCVICxmWpHDLzEL1PecXx')"></div>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<span class="material-symbols-outlined text-primary text-3xl drop-shadow-md">location_on</span>
+</div>
+</div>
+</div>
+<!-- Image Upload -->
+<div class="flex flex-col gap-stack-sm">
+<label class="font-label-md text-label-md text-on-background">Photo Evidence (Optional)</label>
+<div class="border-2 border-dashed border-outline-variant rounded-lg p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:border-primary transition-colors bg-surface-container-low group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary text-4xl mb-2 transition-colors">cloud_upload</span>
+<p class="font-label-md text-label-md text-on-background mb-1">Click to upload or drag and drop</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">SVG, PNG, JPG or GIF (max. 10MB)</p>
+</div>
+</div>
+<div class="flex justify-end pt-4 border-t border-surface-variant">
+<button class="btn-primary px-8 py-3 font-label-md text-label-md flex items-center gap-2" id="submit-btn">
+<span>Submit Report</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Success State (Hidden initially) -->
+<div class="hidden flex flex-col gap-stack-md h-full justify-center" id="success-view">
+<div class="surface-card rounded-lg p-8 md:p-12 flex flex-col items-center text-center gap-6 relative overflow-hidden">
+<!-- Decorative background glow -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-primary-container rounded-full blur-[100px] opacity-10 pointer-events-none"></div>
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container mb-2">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-background mb-2">Report Submitted Successfully</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Thank you for helping keep our community safe. Your report has been analyzed and routed.</p>
+</div>
+<div class="w-full bg-surface-container-low rounded-lg p-6 flex flex-col gap-4 text-left border border-surface-variant mt-4">
+<div class="flex justify-between items-center border-b border-surface-variant pb-4">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">COMPLAINT ID</p>
+<p class="font-label-md text-label-md text-primary font-mono">#REQ-2024-8932</p>
+</div>
+<div class="text-right">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">PREDICTED CATEGORY</p>
+<p class="font-label-md text-label-md text-on-background flex items-center gap-2 justify-end">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">directions_car</span>
+                                    Infrastructure / Roadways
+                                </p>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<p class="font-label-sm text-label-sm text-on-surface-variant">AI GENERATED SUMMARY</p>
+<span class="badge-critical font-label-sm text-label-sm">High Priority</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-background">
+                                Severe pothole reported at specified location. User notes it spans a significant portion of the right lane and poses an immediate risk to vehicles. Routed to Public Works - Road Maintenance division for urgent inspection.
+                            </p>
+</div>
+</div>
+<div class="flex gap-4 mt-6 w-full justify-center">
+<button class="btn-secondary px-6 py-3 font-label-md text-label-md" onclick="resetForm()">
+                            Report Another Issue
+                        </button>
+<a class="btn-primary px-6 py-3 font-label-md text-label-md flex items-center gap-2" href="#">
+                            Track Your Complaint
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar / Contextual Information -->
+<div class="lg:col-span-4 hidden lg:flex flex-col gap-stack-md">
+<!-- Quick Stats Bento -->
+<div class="surface-card rounded-lg p-6 flex flex-col gap-4">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Civic Response Time</h3>
+<div class="flex items-end gap-3">
+<span class="font-headline-xl text-headline-xl text-primary">24h</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mb-2">avg. initial response</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[85%] rounded-full"></div>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant">85% of infrastructure issues resolved within 7 days.</p>
+</div>
+<!-- Recent Reports (Anonymized) -->
+<div class="surface-card rounded-lg p-6 flex flex-col gap-4 flex-grow">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider border-b border-surface-variant pb-2">Recently Resolved Nearby</h3>
+<div class="flex flex-col gap-4">
+<!-- Report Item -->
+<div class="flex items-start gap-3 group">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center mt-1 flex-shrink-0">
+<span class="material-symbols-outlined text-[16px] text-primary">lightbulb</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-background group-hover:text-primary transition-colors">Streetlight Outage</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">Corner of 5th and Main. Completely dark intersection.</p>
+<p class="font-label-sm text-label-sm text-secondary mt-1">Resolved • 2 hours ago</p>
+</div>
+</div>
+<!-- Report Item -->
+<div class="flex items-start gap-3 group">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center mt-1 flex-shrink-0">
+<span class="material-symbols-outlined text-[16px] text-primary">delete</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-background group-hover:text-primary transition-colors">Illegal Dumping</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">Large appliances dumped in alley behind Oak St.</p>
+<p class="font-label-sm text-label-sm text-secondary mt-1">Resolved • 5 hours ago</p>
+</div>
+</div>
+</div>
+</div>
+<!-- AI processing visual -->
+<div class="surface-card rounded-lg p-6 relative overflow-hidden min-h-[160px] flex items-center justify-center group cursor-default">
+<div class="absolute inset-0 z-0 opacity-40 group-hover:opacity-70 transition-opacity duration-500">
+<div class="bg-cover bg-center w-full h-full" data-alt="Abstract representation of artificial intelligence processing civic data. Dark mode background with glowing, intricate data nodes and neural network lines connecting in a dynamic pattern. The color palette features deep blacks, dark slate, and vibrant lime green accents indicating active data flow. The style is modern, technical, and slightly blurred to suggest depth and motion." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDnCmMvZM4e0kefC7WBalvJ8T0-0tF3gJboUCG9UZjxjZHJAP1PrX4M7MNOvL4uNyKQ7AXmHf8qnzG8GMI3ey0uct6LUJvscOTpQcQl4kEyFFS-0BtGtgvDwlrJYZSn228LlG_8Pd7u8CI6MqArp3BwdBtbEEBYX-xjzMqTqC0EjNXKcoOmqFOi60_Wy1hNK_-ZxYqyIMkeYnxjnSsVPpKR-DCVN_ydnF6iphQK8fMSpexpPqcHTwvP')"></div>
+</div>
+<div class="relative z-10 text-center">
+<span class="material-symbols-outlined text-primary text-4xl mb-2" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<h3 class="font-label-md text-label-md text-on-background">AI-Powered Routing</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 max-w-[200px] mx-auto">Ensuring your report reaches the right team instantly.</p>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple script to toggle between form and success state for demonstration
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            // Optional: Add loading state to button here before switching views
+            const btn = this;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span><span>Processing...</span>';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                document.getElementById('form-view').classList.add('hidden');
+                document.getElementById('success-view').classList.remove('hidden');
+                
+                // Reset button for next time (though typically wouldn't need to if switching views)
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                
+                // Clear inputs
+                document.getElementById('description').value = '';
+                document.getElementById('location').value = '';
+            }, 1200); // Simulate API call
+        });
+
+        function resetForm() {
+            document.getElementById('success-view').classList.add('hidden');
+            document.getElementById('form-view').classList.remove('hidden');
+        }
+    </script>
+</body></html>

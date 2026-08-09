@@ -18,6 +18,8 @@ class ComplaintResponse(BaseModel):
     ai_summary: Optional[str] = None
     ai_confidence: Optional[float] = None
     ai_summary_fallback: Optional[bool] = False
+    submitted_by: Optional[str] = None
+
 
 class StatusUpdate(BaseModel):
     status: str = Field(..., description="Target complaint status")
